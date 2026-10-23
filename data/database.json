@@ -1,0 +1,572 @@
+{
+  "settings": {
+    "schoolName": "Özel Balıkesir Bahçeşehir Koleji",
+    "academicYear": "2026 - 2027 Eğitim Öğretim Yılı",
+    "principalName": "Mustafa Kemal Öztürk",
+    "selectionStart": "2026-10-20T08:00",
+    "selectionEnd": "2026-10-30T23:59",
+    "isSelectionOpen": true,
+    "requireStudentVerification": true,
+    "adminUsername": "admin",
+    "adminPassword": "123456",
+    "customPublicUrl": "",
+    "cloudSync": {
+      "enabled": true,
+      "provider": "firebase",
+      "firebaseDatabaseUrl": "",
+      "supabaseUrl": "",
+      "supabaseKey": "123456",
+      "lastSyncedAt": null
+    },
+    "minCloseThreshold": 3,
+    "requiredChoiceCount": 3,
+    "smsAnnouncementTemplate": "🏫 *Özel Balıkesir Bahçeşehir Koleji - Öğrenci Kulüp Seçim Sistemi*\n\nDeğerli Velilerimiz ve Öğrencilerimiz,\nKulüp seçim ekranımız açılmıştır. Telefon, tablet veya bilgisayarınızdan aşağıdaki resmi okul bağlantısına tıklayarak kulüp tercihlerinizi yapabilirsiniz:\n\n👉 {LINK}"
+  },
+  "classes": [
+    "5A",
+    "5B",
+    "6A",
+    "6B",
+    "7A",
+    "7B",
+    "8A",
+    "8B"
+  ],
+  "clubs": [
+    {
+      "id": "club-satranc",
+      "name": "SATRANÇ KULÜBÜ",
+      "description": "Stratejik düşünme, analiz yeteneği geliştirme ve okul içi/okullar arası satranç turnuvalarına hazırlık çalışmaları.",
+      "quota": 20,
+      "active": true,
+      "teacher": "Kemalettin Aydın",
+      "createdAt": "2026-10-15T09:00:00.000Z"
+    },
+    {
+      "id": "club-robotik",
+      "name": "ROBOTİK KODLAMA KULÜBÜ",
+      "description": "Algoritma tasarımı, robotik kodlama kitleri, sensör uygulamaları ve teknoloji yarışmalarına proje geliştirme.",
+      "quota": 20,
+      "active": true,
+      "teacher": "Selin Özkan",
+      "createdAt": "2026-10-15T09:05:00.000Z"
+    },
+    {
+      "id": "club-muzik",
+      "name": "MÜZİK KULÜBÜ",
+      "description": "Okul korosu, ritim çalışmaları, enstrüman eğitimi ve belirli gün/haftalarda müzik dinletileri organizasyonu.",
+      "quota": 20,
+      "active": true,
+      "teacher": "Meltem Aksoy",
+      "createdAt": "2026-10-15T09:10:00.000Z"
+    },
+    {
+      "id": "club-spor",
+      "name": "SPOR KULÜBÜ",
+      "description": "Futbol, voleybol, basketbol, masa tenisi, atletizm çalışmaları ve okul spor takımı turnuva organizasyonları.",
+      "quota": 25,
+      "active": true,
+      "teacher": "Burak Demirci",
+      "createdAt": "2026-10-15T09:15:00.000Z"
+    },
+    {
+      "id": "club-proje",
+      "name": "PROJE VE BİLİM KULÜBÜ",
+      "description": "TÜBİTAK bilim fuarları, deneysel araştırmalar, fen ve matematik projeleri geliştirme çalışmaları.",
+      "quota": 15,
+      "active": true,
+      "teacher": "Dr. Hakan Yıldız",
+      "createdAt": "2026-10-15T09:20:00.000Z"
+    },
+    {
+      "id": "club-resim",
+      "name": "GÖRSEL SANATLAR KULÜBÜ",
+      "description": "Resim teknikleri, tuval çalışmaları, el sanatları ve yıl sonu okul sanat sergisi hazırlıkları.",
+      "quota": 20,
+      "active": true,
+      "teacher": "Pınar Karaca",
+      "createdAt": "2026-10-15T09:25:00.000Z"
+    },
+    {
+      "id": "club-tiyatro",
+      "name": "TİYATRO VE DRAMA KULÜBÜ",
+      "description": "Yaratıcı drama, sahne sanatları, diksiyon çalışmaları ve yıl sonu okul tiyatro gösterisi.",
+      "quota": 15,
+      "active": true,
+      "teacher": "Gökhan Erdem",
+      "createdAt": "2026-10-15T09:30:00.000Z"
+    },
+    {
+      "id": "club-cevre",
+      "name": "ÇEVRE VE DOĞA KULÜBÜ",
+      "description": "Sıfır atık projeleri, geri dönüşüm bilinci, okul bahçesi ağaçlandırma ve doğa koruma etkinlikleri.",
+      "quota": 20,
+      "active": true,
+      "teacher": "Esra Çetin",
+      "createdAt": "2026-10-15T09:35:00.000Z"
+    }
+  ],
+  "students": [
+    {
+      "id": "st-1",
+      "firstName": "Ahmet",
+      "lastName": "Yılmaz",
+      "className": "6A",
+      "studentNo": "15"
+    },
+    {
+      "id": "st-2",
+      "firstName": "Zeynep",
+      "lastName": "Korkmaz",
+      "className": "6A",
+      "studentNo": "24"
+    },
+    {
+      "id": "st-3",
+      "firstName": "Mustafa",
+      "lastName": "Arslan",
+      "className": "6A",
+      "studentNo": "31"
+    },
+    {
+      "id": "st-4",
+      "firstName": "Elif",
+      "lastName": " Aydın",
+      "className": "6A",
+      "studentNo": "42"
+    },
+    {
+      "id": "st-5",
+      "firstName": "Kerem",
+      "lastName": "Özdemir",
+      "className": "6A",
+      "studentNo": "58"
+    },
+    {
+      "id": "st-6",
+      "firstName": "Defne",
+      "lastName": "Şahin",
+      "className": "6A",
+      "studentNo": "63"
+    },
+    {
+      "id": "st-7",
+      "firstName": "Ayşe",
+      "lastName": "Demir",
+      "className": "6B",
+      "studentNo": "21"
+    },
+    {
+      "id": "st-8",
+      "firstName": "Mehmet",
+      "lastName": "Kaya",
+      "className": "6B",
+      "studentNo": "23"
+    },
+    {
+      "id": "st-9",
+      "firstName": "Caner",
+      "lastName": "Polat",
+      "className": "6B",
+      "studentNo": "35"
+    },
+    {
+      "id": "st-10",
+      "firstName": "Yağmur",
+      "lastName": "Çelik",
+      "className": "6B",
+      "studentNo": "44"
+    },
+    {
+      "id": "st-11",
+      "firstName": "Bora",
+      "lastName": "Koç",
+      "className": "6B",
+      "studentNo": "52"
+    },
+    {
+      "id": "st-12",
+      "firstName": "Ecrin",
+      "lastName": "Yıldırım",
+      "className": "5A",
+      "studentNo": "10"
+    },
+    {
+      "id": "st-13",
+      "firstName": "Yiğit",
+      "lastName": "Öztürk",
+      "className": "5A",
+      "studentNo": "18"
+    },
+    {
+      "id": "st-14",
+      "firstName": "Nehir",
+      "lastName": "Aktaş",
+      "className": "5A",
+      "studentNo": "27"
+    },
+    {
+      "id": "st-15",
+      "firstName": "Kaan",
+      "lastName": "Doğan",
+      "className": "5A",
+      "studentNo": "33"
+    },
+    {
+      "id": "st-16",
+      "firstName": "Azra",
+      "lastName": "Kılıç",
+      "className": "5A",
+      "studentNo": "49"
+    },
+    {
+      "id": "st-18",
+      "firstName": "Beren",
+      "lastName": "Kara",
+      "className": "5B",
+      "studentNo": "22"
+    },
+    {
+      "id": "st-19",
+      "firstName": "Emir",
+      "lastName": "Şen",
+      "className": "5B",
+      "studentNo": "36"
+    },
+    {
+      "id": "st-20",
+      "firstName": "İrem",
+      "lastName": "Taş",
+      "className": "5B",
+      "studentNo": "41"
+    },
+    {
+      "id": "st-21",
+      "firstName": "Mehmet",
+      "lastName": "Kaya",
+      "className": "7A",
+      "studentNo": "8"
+    },
+    {
+      "id": "st-22",
+      "firstName": "Ayşe",
+      "lastName": "Demir",
+      "className": "7A",
+      "studentNo": "12"
+    },
+    {
+      "id": "st-23",
+      "firstName": "Furkan",
+      "lastName": "Güler",
+      "className": "7A",
+      "studentNo": "19"
+    },
+    {
+      "id": "st-24",
+      "firstName": "Sude",
+      "lastName": "Bozkurt",
+      "className": "7A",
+      "studentNo": "28"
+    },
+    {
+      "id": "st-25",
+      "firstName": "Arda",
+      "lastName": "Yavuz",
+      "className": "7A",
+      "studentNo": "39"
+    },
+    {
+      "id": "st-26",
+      "firstName": "Ceren",
+      "lastName": "Aslan",
+      "className": "7B",
+      "studentNo": "11"
+    },
+    {
+      "id": "st-27",
+      "firstName": "Burak",
+      "lastName": "Tekin",
+      "className": "7B",
+      "studentNo": "17"
+    },
+    {
+      "id": "st-28",
+      "firstName": "Melisa",
+      "lastName": "Ünal",
+      "className": "7B",
+      "studentNo": "25"
+    },
+    {
+      "id": "st-29",
+      "firstName": "Onur",
+      "lastName": "Bulut",
+      "className": "7B",
+      "studentNo": "34"
+    },
+    {
+      "id": "st-30",
+      "firstName": "Selim",
+      "lastName": "Avcı",
+      "className": "8A",
+      "studentNo": "9"
+    },
+    {
+      "id": "st-31",
+      "firstName": "Duru",
+      "lastName": "Güneş",
+      "className": "8A",
+      "studentNo": "16"
+    },
+    {
+      "id": "st-32",
+      "firstName": "Efe",
+      "lastName": "Kaplan",
+      "className": "8A",
+      "studentNo": "29"
+    },
+    {
+      "id": "st-33",
+      "firstName": "Zehra",
+      "lastName": "Sarı",
+      "className": "8A",
+      "studentNo": "45"
+    },
+    {
+      "id": "st-34",
+      "firstName": "Tuna",
+      "lastName": "Yüksel",
+      "className": "8B",
+      "studentNo": "13"
+    },
+    {
+      "id": "st-35",
+      "firstName": "Eylül",
+      "lastName": "Acar",
+      "className": "8B",
+      "studentNo": "20"
+    },
+    {
+      "id": "st-36",
+      "firstName": "Barış",
+      "lastName": "Kurt",
+      "className": "8B",
+      "studentNo": "32"
+    },
+    {
+      "id": "st-37",
+      "firstName": "Aslı",
+      "lastName": "Erdoğan",
+      "className": "8B",
+      "studentNo": "48"
+    },
+    {
+      "id": "st-1792673501176-bt1h",
+      "firstName": "Emre",
+      "lastName": "özbek",
+      "className": "5A",
+      "studentNo": "123"
+    }
+  ],
+  "selections": [
+    {
+      "id": "sel-2",
+      "firstName": "Mehmet",
+      "lastName": "Kaya",
+      "className": "7A",
+      "studentNo": "8",
+      "clubId": "club-proje",
+      "clubName": "PROJE VE BİLİM KULÜBÜ",
+      "selectedAt": "2026-10-21T11:20:00.000Z",
+      "dateFormatted": "21.10.2026",
+      "choices": [
+        "club-satranc",
+        "club-spor",
+        "club-proje"
+      ],
+      "choiceNames": [
+        "SATRANÇ KULÜBÜ",
+        "SPOR KULÜBÜ",
+        "PROJE VE BİLİM KULÜBÜ"
+      ],
+      "assignedChoiceOrder": 3,
+      "placementReason": "1. ve 2. tercih edilen kulüpler (≤3 öğrenci) açılmadığı için 3. tercihine kaydedilmiştir.",
+      "placementStatus": "PLACED",
+      "isManualAssignment": false
+    },
+    {
+      "id": "sel-3",
+      "firstName": "Zeynep",
+      "lastName": "Korkmaz",
+      "className": "6A",
+      "studentNo": "24",
+      "clubId": "club-satranc",
+      "clubName": "SATRANÇ KULÜBÜ",
+      "selectedAt": "2026-10-22T12:29:46.922Z",
+      "dateFormatted": "22.10.2026",
+      "choices": [
+        "club-muzik",
+        "club-resim",
+        "club-satranc"
+      ],
+      "choiceNames": [
+        "MÜZİK KULÜBÜ",
+        "GÖRSEL SANATLAR KULÜBÜ",
+        "SATRANÇ KULÜBÜ"
+      ],
+      "assignedChoiceOrder": 3,
+      "placementReason": "1. ve 2. tercih edilen kulüpler (≤3 öğrenci) açılmadığı için 3. tercihine kaydedilmiştir.",
+      "placementStatus": "PLACED",
+      "isManualAssignment": false
+    },
+    {
+      "id": "sel-4",
+      "firstName": "Mustafa",
+      "lastName": "Arslan",
+      "className": "6A",
+      "studentNo": "31",
+      "clubId": "club-satranc",
+      "clubName": "SATRANÇ KULÜBÜ",
+      "selectedAt": "2026-10-21T13:40:00.000Z",
+      "dateFormatted": "21.10.2026",
+      "choices": [
+        "club-spor",
+        "club-satranc",
+        "club-robotik"
+      ],
+      "choiceNames": [
+        "SPOR KULÜBÜ",
+        "SATRANÇ KULÜBÜ",
+        "ROBOTİK KODLAMA KULÜBÜ"
+      ],
+      "assignedChoiceOrder": 2,
+      "placementReason": "1. tercihi (SPOR KULÜBÜ — ≤3 öğrenci) açılmadığı için 2. tercihine atanmıştır.",
+      "placementStatus": "PLACED",
+      "isManualAssignment": false
+    },
+    {
+      "id": "sel-11",
+      "firstName": "Beren",
+      "lastName": "Kara",
+      "className": "5B",
+      "studentNo": "22",
+      "clubId": "club-satranc",
+      "clubName": "SATRANÇ KULÜBÜ",
+      "selectedAt": "2026-10-21T18:00:00.000Z",
+      "dateFormatted": "21.10.2026",
+      "choices": [
+        "club-muzik",
+        "club-satranc",
+        "club-spor"
+      ],
+      "choiceNames": [
+        "MÜZİK KULÜBÜ",
+        "SATRANÇ KULÜBÜ",
+        "SPOR KULÜBÜ"
+      ],
+      "assignedChoiceOrder": 2,
+      "placementReason": "1. tercihi (MÜZİK KULÜBÜ — ≤3 öğrenci) açılmadığı için 2. tercihine atanmıştır.",
+      "placementStatus": "PLACED",
+      "isManualAssignment": false
+    },
+    {
+      "id": "sel-12",
+      "firstName": "Furkan",
+      "lastName": "Güler",
+      "className": "7A",
+      "studentNo": "19",
+      "clubId": "club-proje",
+      "clubName": "PROJE VE BİLİM KULÜBÜ",
+      "selectedAt": "2026-10-21T18:30:00.000Z",
+      "dateFormatted": "21.10.2026",
+      "choices": [
+        "club-spor",
+        "club-robotik",
+        "club-proje"
+      ],
+      "choiceNames": [
+        "SPOR KULÜBÜ",
+        "ROBOTİK KODLAMA KULÜBÜ",
+        "PROJE VE BİLİM KULÜBÜ"
+      ],
+      "assignedChoiceOrder": 3,
+      "placementReason": "1. ve 2. tercih edilen kulüpler (≤3 öğrenci) açılmadığı için 3. tercihine kaydedilmiştir.",
+      "placementStatus": "PLACED",
+      "isManualAssignment": false
+    },
+    {
+      "id": "sel-18",
+      "firstName": "Tuna",
+      "lastName": "Yüksel",
+      "className": "8B",
+      "studentNo": "13",
+      "clubId": "club-satranc",
+      "clubName": "SATRANÇ KULÜBÜ",
+      "selectedAt": "2026-10-22T11:00:00.000Z",
+      "dateFormatted": "22.10.2026",
+      "choices": [
+        "club-spor",
+        "club-satranc",
+        "club-muzik"
+      ],
+      "choiceNames": [
+        "SPOR KULÜBÜ",
+        "SATRANÇ KULÜBÜ",
+        "MÜZİK KULÜBÜ"
+      ],
+      "assignedChoiceOrder": 2,
+      "placementReason": "1. tercihi (SPOR KULÜBÜ — ≤3 öğrenci) açılmadığı için 2. tercihine atanmıştır.",
+      "placementStatus": "PLACED",
+      "isManualAssignment": false
+    },
+    {
+      "id": "sel-20",
+      "firstName": "Caner",
+      "lastName": "Polat",
+      "className": "6B",
+      "studentNo": "35",
+      "clubId": "club-satranc",
+      "clubName": "SATRANÇ KULÜBÜ",
+      "selectedAt": "2026-10-22T12:15:00.000Z",
+      "dateFormatted": "22.10.2026",
+      "choices": [
+        "club-robotik",
+        "club-satranc",
+        "club-spor"
+      ],
+      "choiceNames": [
+        "ROBOTİK KODLAMA KULÜBÜ",
+        "SATRANÇ KULÜBÜ",
+        "SPOR KULÜBÜ"
+      ],
+      "assignedChoiceOrder": 2,
+      "placementReason": "1. tercihi (ROBOTİK KODLAMA KULÜBÜ — ≤3 öğrenci) açılmadığı için 2. tercihine atanmıştır.",
+      "placementStatus": "PLACED",
+      "isManualAssignment": false
+    },
+    {
+      "id": "sel-1792737654522-dv5fi",
+      "firstName": "Ecrin",
+      "lastName": "Yıldırım",
+      "className": "5A",
+      "studentNo": "10",
+      "choices": [
+        "club-satranc",
+        "club-robotik",
+        "club-muzik"
+      ],
+      "choiceNames": [
+        "SATRANÇ KULÜBÜ",
+        "ROBOTİK KODLAMA KULÜBÜ",
+        "MÜZİK KULÜBÜ"
+      ],
+      "clubId": "club-muzik",
+      "clubName": "MÜZİK KULÜBÜ",
+      "assignedChoiceOrder": 3,
+      "placementStatus": "PLACED",
+      "placementReason": "1. ve 2. tercih edilen kulüpler (≤3 öğrenci) açılmadığı için 3. tercihine kaydedilmiştir.",
+      "isManualAssignment": false,
+      "selectedAt": "2026-10-23T06:40:54.522Z",
+      "dateFormatted": "23.10.2026"
+    }
+  ]
+}

@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Özel Balıkesir Bahçeşehir Koleji — Resmi Öğrenci Kulüp Seçim Sistemi</title>
+  <meta name="description" content="Özel Balıkesir Bahçeşehir Koleji Resmi Online Öğrenci Kulüp Seçim Sistemi. Değerli veli ve öğrencilerimiz kulüp tercihlerini güvenle gerçekleştirebilir." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Özel Balıkesir Bahçeşehir Koleji" />
+  <meta property="og:title" content="🏫 Özel Balıkesir Bahçeşehir Koleji — Resmi Öğrenci Kulüp Seçim Sistemi" />
+  <meta property="og:description" content="Değerli Veli ve Öğrencilerimiz, resmi öğrenci kulüp tercihlerinizi bu güvenli bağlantı üzerinden gerçekleştirebilirsiniz." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Chart.js Grafik Kütüphanesi -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- ÜST BAR -->
+  <header class="top-navbar">
+    <div class="brand-wrap">
+      <button id="mobileMenuBtn" class="mobile-menu-toggle" onclick="toggleMobileSidebar()" style="display:none;" title="Menü">
+        ☰
+      </button>
+      <div class="brand-logo">🎓</div>
+      <div class="brand-text">
+        <h1 id="headerSchoolName">CUMHURİYET ORTAOKULU</h1>
+        <span id="headerAcademicYear">Online Öğrenci Kulüp Seçim ve Raporlama Sistemi</span>
+      </div>
+    </div>
+
+    <div class="top-nav-actions" id="topNavActions">
+      <button id="btnSwitchStudent" class="nav-switch-btn active" onclick="switchMainMode('student')">
+        <span>🧑‍🎓</span> Öğrenci Seçim Ekranı
+      </button>
+      <button id="btnSwitchAdmin" class="nav-switch-btn" onclick="switchMainMode('admin')">
+        <span>🔐</span> Yönetici Paneli
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       1. ÖĞRENCİ KULÜP SEÇİM EKRANI (#3, #4, #5, #6, #7, #16, #24)
+       ======================================================================== -->
+  <main id="studentMainView" class="student-view-container">
+
+    <!-- A. SÜRE DOLDU / SEÇİM KAPALI EKRANI (#16) -->
+    <section id="studentPeriodClosedView" style="display: none;">
+      <div class="result-status-card">
+        <div class="status-icon-circle status-icon-expired">⏰</div>
+        <h2 id="periodClosedHeading" style="font-size: 1.5rem; font-weight: 800; color: #dc2626; margin-bottom: 0.75rem;">
+          KULÜP SEÇİM SÜRESİ SONA ERMİŞTİR.
+        </h2>
+        <p style="color: #475569; margin-bottom: 1.25rem; font-size: 0.96rem;">
+          Okul yönetimi tarafından belirlenen kulüp seçim tarih aralığı dışında işlem yapılamamaktadır.
+        </p>
+        <table class="summary-detail-table">
+          <tr>
+            <th>Seçim Başlangıç Tarihi</th>
+            <td id="closedStartText">-</td>
+          </tr>
+          <tr>
+            <th>Seçim Bitiş Tarihi</th>
+            <td id="closedEndText">-</td>
+          </tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- B. ÖĞRENCİ KİMLİK DOĞRULAMA GİRİŞ FORMU (#3, #24) -->
+    <section id="studentLoginStep" class="student-login-wrapper">
+      <div class="student-hero-card">
+        <div class="student-hero-header">
+          <div style="display:inline-flex; align-items:center; gap:0.35rem; background:rgba(34,197,94,0.22); border:1px solid rgba(134,239,172,0.5); color:#dcfce7; font-size:0.75rem; font-weight:800; padding:0.25rem 0.7rem; border-radius:999px; margin-bottom:0.5rem;">
+            🔒 https://balikesirbahcesehirkoleji — RESMİ OKUL BAĞLANTISI
+          </div>
+          <div class="school-badge-pill" id="studentHeroSchoolBadge">ÖZEL BALIKESİR BAHÇEŞEHİR KOLEJİ</div>
+          <h2>ÖĞRENCİ KULÜP SEÇİM SİSTEMİ</h2>
+          <p>Değerli öğrencimiz, aşağıdaki bilgileri eksiksiz doldurarak kulüp seçiminizi gerçekleştiriniz.</p>
+        </div>
+
+        <div class="student-form-body">
+          <div id="studentVerifyAlert" style="display: none;"></div>
+
+          <form id="studentVerifyForm" onsubmit="handleStudentVerify(event)">
+            <div class="form-group">
+              <label for="stFirstName">Ad</label>
+              <input
+                type="text"
+                id="stFirstName"
+                class="form-control"
+                placeholder="Örn: Ahmet"
+                required
+                autocomplete="given-name"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="stLastName">Soyad</label>
+              <input
+                type="text"
+                id="stLastName"
+                class="form-control"
+                placeholder="Örn: Yılmaz"
+                required
+                autocomplete="family-name"
+              />
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="stClassName">Sınıf</label>
+                <select id="stClassName" class="form-control" required>
+                  <option value="">Sınıf Seçiniz</option>
+                  <option value="5A">5A</option>
+                  <option value="5B">5B</option>
+                  <option value="6A">6A</option>
+                  <option value="6B">6B</option>
+                  <option value="7A">7A</option>
+                  <option value="7B">7B</option>
+                  <option value="8A">8A</option>
+                  <option value="8B">8B</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="stStudentNo">Öğrenci Numarası</label>
+                <input
+                  type="text"
+                  inputmode="numeric"
+                  id="stStudentNo"
+                  class="form-control"
+                  placeholder="Örn: 15"
+                  required
+                />
+              </div>
+            </div>
+
+            <button type="submit" id="btnVerifyStudent" class="btn btn-primary btn-lg" style="margin-top: 0.4rem;">
+              Devam Et ve Kulüpleri Listele →
+            </button>
+          </form>
+
+          <!-- Daha Önce Seçim Yapmış Öğrenci Uyarı Kartı (#5) -->
+          <div id="alreadySelectedBox" style="display: none; margin-top: 1.25rem;">
+            <div class="alert-box alert-warning" style="margin-bottom: 0.85rem;">
+              <span style="font-size: 1.25rem;">⚠️</span>
+              <div>
+                <strong style="display: block; font-size: 0.98rem;">Bu öğrenci için daha önce kulüp seçimi yapılmıştır.</strong>
+                <span style="font-size: 0.85rem;">Kulüp tercih işleminiz daha önce başarıyla tamamlanmıştır:</span>
+              </div>
+            </div>
+            <table class="summary-detail-table" style="margin: 0.5rem 0 0;">
+              <tr>
+                <th>Ad Soyad</th>
+                <td id="alreadyStName">-</td>
+              </tr>
+              <tr>
+                <th>Sınıf / Öğrenci No</th>
+                <td id="alreadyStClassNo">-</td>
+              </tr>
+              <tr>
+                <th>Durum</th>
+                <td id="alreadyStClub" style="color: #15803d; font-weight: 800;">Seçimi Başarıyla Tamamladınız</td>
+              </tr>
+              <tr>
+                <th>Seçim Tarihi</th>
+                <td id="alreadyStDate">-</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- C. KULÜP SEÇİM EKRANI (3 TERCİHLİ HAVUZ SİSTEMİ) -->
+    <section id="studentClubSelectionStep" style="display: none;">
+      <div class="verified-student-banner">
+        <div class="verified-badge-area">
+          <div class="verified-check-icon">✓</div>
+          <div>
+            <div style="font-size: 0.82rem; font-weight: 700; color: #16a34a; text-transform: uppercase;">
+              Öğrenciniz doğrulandı.
+            </div>
+            <div style="font-size: 1.12rem; font-weight: 800; color: #0f172a;" id="verifiedStudentSummary">
+              Ahmet Yılmaz — 6A Sınıfı (No: 15)
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="resetStudentFlow()">
+          ← Farklı Öğrenci Girişi
+        </button>
+      </div>
+
+      <!-- 3 TERCİH SEPETİ KARTI -->
+      <div class="panel-card" style="border: 2px solid #2563eb; background: #ffffff; position: sticky; top: 68px; z-index: 40; box-shadow: 0 10px 25px -5px rgba(30, 58, 138, 0.18);">
+        <div class="panel-card-header" style="background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); color: #ffffff;">
+          <div>
+            <h3 style="color: #ffffff; font-size: 1.05rem;">🎯 KULÜP TERCİH SIRALAMANIZ (3 TERCİH SEÇİNİZ)</h3>
+          </div>
+          <button
+            type="button"
+            id="btnOpen3ChoicesConfirm"
+            class="btn btn-success"
+            disabled
+            onclick="openConfirmSelectionModal()"
+            style="font-weight: 800; padding: 0.7rem 1.25rem;"
+          >
+            ✓ Tercihlerimi Tamamladım
+          </button>
+        </div>
+        <div class="panel-card-body" style="padding: 1rem 1.25rem;">
+          <div id="studentChoiceSlotsContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0.85rem;">
+            <!-- 1., 2. ve 3. Tercih kutuları JS ile doldurulur -->
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 1.15rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+        <div>
+          <h3 style="font-size: 1.2rem; font-weight: 800; color: #0f172a;">AKTİF ÖĞRENCİ KULÜPLERİ</h3>
+          <p style="font-size: 0.88rem; color: #475569;">Aşağıdaki kulüp kartlarından sırasıyla <strong>1. Tercih</strong>, <strong>2. Tercih</strong> ve <strong>3. Tercih</strong> olmak üzere 3 kulüp seçiniz.</p>
+        </div>
+      </div>
+
+      <div id="studentClubsGrid" class="clubs-grid">
+        <!-- Kulüp kartları JS ile dinamik oluşturulur -->
+      </div>
+    </section>
+
+    <!-- D. BAŞARILI KAYIT EKRANI (#7) -->
+    <section id="studentSuccessStep" style="display: none;">
+      <div class="result-status-card" style="max-width: 620px;">
+        <div class="status-icon-circle status-icon-success">✓</div>
+        <h2 style="font-size: 1.45rem; font-weight: 800; color: #15803d; margin-bottom: 0.5rem;">
+          SEÇİMİ BAŞARIYLA TAMAMLADINIZ
+        </h2>
+        <p style="font-size: 0.92rem; color: #475569;">
+          Kulüp seçiminiz başarıyla sisteme kaydedilmiştir.
+        </p>
+
+        <table class="summary-detail-table">
+          <tr>
+            <th>Ad Soyad:</th>
+            <td id="successFullName">Ahmet Yılmaz</td>
+          </tr>
+          <tr>
+            <th>Sınıf:</th>
+            <td id="successClass">6A</td>
+          </tr>
+          <tr>
+            <th>Öğrenci No:</th>
+            <td id="successStudentNo">15</td>
+          </tr>
+          <tr>
+            <th>Seçim Tarihi:</th>
+            <td id="successDate">22.10.2026</td>
+          </tr>
+        </table>
+
+        <div style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-top: 1.25rem;" class="no-print">
+          <button class="btn btn-primary" onclick="resetStudentFlow()">
+            Ana Ekrana Dön
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SEÇİM ONAY EKRANI MODALI (#6 - 3 TERCİH ONAYI) -->
+  <div id="confirmSelectionModal" class="modal-backdrop" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>KULÜP SEÇİMİNİZ (TERCİH ONAYI)</h3>
+        <button class="btn btn-sm btn-outline" onclick="closeConfirmSelectionModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="alert-box alert-info" style="margin-bottom: 1rem;">
+          <span>ℹ️</span>
+          <div>
+            Lütfen belirlediğiniz <strong>1., 2. ve 3. kulüp tercihlerinizi</strong> kontrol ederek onaylayınız.
+          </div>
+        </div>
+
+        <table class="summary-detail-table" style="margin: 0 0 1.15rem;">
+          <tr>
+            <th>Ad Soyad:</th>
+            <td id="confirmFullName">Ahmet Yılmaz</td>
+          </tr>
+          <tr>
+            <th>Sınıf:</th>
+            <td id="confirmClass">6A</td>
+          </tr>
+          <tr>
+            <th>Öğrenci No:</th>
+            <td id="confirmStudentNo">15</td>
+          </tr>
+        </table>
+
+        <div id="confirmChoicesListContainer" style="display:flex; flex-direction:column; gap:0.65rem;">
+          <!-- 1., 2. ve 3. Tercih onay kartları JS ile doldurulur -->
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: space-between;">
+        <button type="button" class="btn btn-secondary" onclick="closeConfirmSelectionModal()" style="min-width: 120px;">
+          Vazgeç
+        </button>
+        <button type="button" id="btnFinalConfirmSelection" class="btn btn-success" onclick="submitConfirmedSelection()" style="min-width: 210px;">
+          ✓ Seçimimi Onaylıyorum
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       2. YÖNETİCİ PANELİ (#8 - #32)
+       ======================================================================== -->
+  <div id="adminMainView" style="display: none;">
+
+    <!-- A. YÖNETİCİ GİRİŞ EKRANI (#8) -->
+    <section id="adminLoginGate" class="student-view-container">
+      <div class="student-login-wrapper">
+        <div class="student-hero-card">
+          <div class="student-hero-header" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
+            <div class="school-badge-pill">OKUL YÖNETİM PANELİ</div>
+            <h2>YÖNETİCİ GİRİŞİ</h2>
+            <p>Kulüpleri, kontenjanları, öğrenci listesini ve raporları yönetmek için giriş yapınız.</p>
+          </div>
+          <div class="student-form-body">
+            <div id="adminLoginAlert" style="display: none;"></div>
+            <form onsubmit="handleAdminLogin(event)">
+              <div class="form-group">
+                <label for="admUsername">Kullanıcı Adı</label>
+                <input type="text" id="admUsername" class="form-control" value="admin" required />
+              </div>
+              <div class="form-group">
+                <label for="admPassword">Şifre</label>
+                <input type="password" id="admPassword" class="form-control" value="123456" required />
+              </div>
+              <button type="submit" class="btn btn-primary btn-lg">
+                🔐 Yönetici Paneline Giriş Yap
+              </button>
+            </form>
+            <div style="margin-top: 1rem; font-size: 0.8rem; color: #64748b; text-align: center;">
+              Varsayılan Yönetici Bilgileri — Kullanıcı Adı: <strong>admin</strong> | Şifre: <strong>123456</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- B. YÖNETİCİ PANELİ ANA DÜZEN (#32) -->
+    <div id="adminAuthenticatedLayout" class="admin-layout" style="display: none;">
+      <!-- SOL MENÜ (#32) -->
+      <aside id="adminSidebar" class="admin-sidebar">
+        <div class="sidebar-section-label">YÖNETİCİ MENÜSÜ</div>
+        <ul class="sidebar-nav">
+          <li>
+            <button class="sidebar-link active" data-tab="dashboard" onclick="switchAdminTab('dashboard')">
+              <span>📊</span> Dashboard
+            </button>
+          </li>
+          <li>
+            <button class="sidebar-link" data-tab="students" onclick="switchAdminTab('students')">
+              <span>🧑‍🎓</span> Öğrenciler
+              <span class="nav-badge" id="navBadgeStudents">0</span>
+            </button>
+          </li>
+          <li>
+            <button class="sidebar-link" data-tab="clubs" onclick="switchAdminTab('clubs')">
+              <span>🏆</span> Kulüpler
+              <span class="nav-badge" id="navBadgeClubs">0</span>
+            </button>
+          </li>
+          <li>
+            <button class="sidebar-link" data-tab="classes" onclick="switchAdminTab('classes')">
+              <span>🏫</span> Sınıflar
+            </button>
+          </li>
+          <li>
+            <button class="sidebar-link" data-tab="unselected" onclick="switchAdminTab('unselected')">
+              <span>⏳</span> Seçim Durumu
+              <span class="nav-badge" id="navBadgeUnselected" style="background:#dc2626;">0</span>
+            </button>
+          </li>
+          <li>
+            <button class="sidebar-link" data-tab="reports" onclick="switchAdminTab('reports')">
+              <span>📑</span> Raporlar
+            </button>
+          </li>
+          <li>
+            <button class="sidebar-link" data-tab="exports" onclick="switchAdminTab('exports')">
+              <span>📄</span> Word / PDF
+            </button>
+          </li>
+          <li>
+            <button class="sidebar-link" data-tab="upload" onclick="switchAdminTab('upload')">
+              <span>📥</span> Öğrenci Listesi Yükle
+            </button>
+          </li>
+          <li>
+            <button class="sidebar-link" data-tab="backup" onclick="switchAdminTab('backup')">
+              <span>💾</span> Yedekleme
+            </button>
+          </li>
+          <li>
+            <button class="sidebar-link" data-tab="settings" onclick="switchAdminTab('settings')">
+              <span>⚙️</span> Ayarlar
+            </button>
+          </li>
+        </ul>
+
+        <div class="sidebar-footer">
+          <div style="margin-bottom: 0.5rem;">
+            <span id="sidebarSyncStatus">🟢 Merkezi Veritabanı Aktif</span>
+          </div>
+          <button class="btn btn-sm btn-outline" style="width:100%; background:transparent; color:#cbd5e1; border-color:#334155;" onclick="handleAdminLogout()">
+            Çıkış Yap
+          </button>
+        </div>
+      </aside>
+
+      <!-- ANA İÇERİK ALANI -->
+      <div class="admin-main">
+
+        <!-- ==================================================================
+             SEKME 1: DASHBOARD (#9, #10, #17, #18, #29)
+             ================================================================== -->
+        <section id="tab-dashboard" class="admin-tab-section">
+          <div class="page-header-bar">
+            <div class="page-header-title">
+              <h2>YÖNETİCİ DASHBOARD</h2>
+              <p>Öğrenci kulüp seçimlerinin anlık merkezi istatistikleri ve paylaşım bağlantısı</p>
+            </div>
+            <div style="display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap;">
+              <div class="live-indicator">
+                <span class="live-dot"></span>
+                <span>Anlık Canlı Takip Aktif</span>
+              </div>
+              <button class="btn btn-success btn-sm" style="font-weight:800;" onclick="handleRecalculatePool(false)">
+                🎯 Otomatik Dağıtma
+              </button>
+              <button class="btn btn-outline btn-sm" onclick="refreshAdminData()">
+                🔄 Verileri Yenile
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 İSTATİSTİK KARTI (#9) -->
+          <div class="stats-grid-4">
+            <div class="stat-card stat-blue">
+              <div class="stat-info">
+                <h3>TOPLAM ÖĞRENCİ</h3>
+                <div class="stat-number" id="statTotalStudents">0</div>
+                <div class="stat-sub">Sistemde kayıtlı öğrenci</div>
+              </div>
+              <div class="stat-icon-box">👥</div>
+            </div>
+
+            <div class="stat-card stat-green">
+              <div class="stat-info">
+                <h3>KULÜP SEÇİMİ YAPAN</h3>
+                <div class="stat-number" id="statSelectedCount">0</div>
+                <div class="stat-sub" id="statSelectedPercent">%0 tamamlandı</div>
+              </div>
+              <div class="stat-icon-box">✅</div>
+            </div>
+
+            <div class="stat-card stat-amber" style="cursor:pointer;" onclick="switchAdminTab('unselected')">
+              <div class="stat-info">
+                <h3>KULÜP SEÇMEYEN</h3>
+                <div class="stat-number" id="statUnselectedCount">0</div>
+                <div class="stat-sub">Listeyi görmek için tıklayın →</div>
+              </div>
+              <div class="stat-icon-box">⏳</div>
+            </div>
+
+            <div class="stat-card stat-purple" style="cursor:pointer;" onclick="switchAdminTab('clubs')">
+              <div class="stat-info">
+                <h3>TOPLAM KULÜP</h3>
+                <div class="stat-number" id="statTotalClubs">0</div>
+                <div class="stat-sub" id="statQuotaSummary">Toplam Kontenjan: 0</div>
+              </div>
+              <div class="stat-icon-box">🏆</div>
+            </div>
+          </div>
+
+          <!-- OTOMATİK DAĞITMA VE HAVUZ KONTROL PANELİ -->
+          <div class="panel-card" style="border: 2px solid #2563eb; background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);">
+            <div class="panel-card-body" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; padding:1.15rem 1.4rem;">
+              <div style="flex:1; min-width:260px;">
+                <h3 style="font-size:1.08rem; font-weight:800; color:#1e3a8a; margin-bottom:0.3rem;">
+                  🎯 ÖĞRENCİ TERCİH HAVUZU VE OTOMATİK DAĞITMA MERKEZİ
+                </h3>
+                <p style="font-size:0.86rem; color:#334155; margin-bottom:0.5rem;">
+                  Öğrenciler 1., 2. ve 3. kulüp tercihlerini yaptığında kayıtları önce <strong>Sistem Havuzunda</strong> bekler. Siz <strong>"Otomatik Dağıtma"</strong> butonuna bastığınızda öğrenciler öncelikle <strong>1. tercihlerine</strong>; 3 ve daha az öğrencisi olan kulüpler açılmayarak sırasıyla <strong>2. ve 3. tercihlerine</strong> otomatik yerleştirilir.
+                </p>
+                <div style="display:flex; gap:0.75rem; flex-wrap:wrap; font-size:0.83rem; font-weight:700;">
+                  <span class="badge badge-warning" id="poolPendingBadge">⏳ Havuzda Dağıtım Bekleyen: 0 Öğrenci</span>
+                  <span class="badge badge-success" id="poolDistributedBadge">✓ Yerleştirilen: 0 Öğrenci</span>
+                  <span class="badge badge-primary" id="poolBreakdownBadge">1. Tercih: 0 | 2. Tercih: 0 | 3. Tercih: 0</span>
+                </div>
+              </div>
+              <div style="display:flex; gap:0.65rem; flex-wrap:wrap; align-items:center;">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  style="font-size:0.98rem; font-weight:800; padding:0.8rem 1.4rem; box-shadow:0 4px 14px rgba(37,99,235,0.3);"
+                  onclick="handleRecalculatePool(false)"
+                >
+                  🎯 Otomatik Dağıtma
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline btn-sm"
+                  onclick="handleResetPoolToPending()"
+                  title="Yerleştirmeleri geri alıp öğrencileri tekrar havuzda bekleyen duruma çeker"
+                >
+                  ↩️ Havuza Geri Çek
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- TEK BİR LİNKLE PAYLAŞIM (#17) VE QR KOD (#18) -->
+          <div class="panel-card">
+            <div class="panel-card-header">
+              <h3>🔗 ÖĞRENCİ KULÜP SEÇİM LİNKİ VE QR KOD PAYLAŞIMI</h3>
+              <span class="badge badge-primary" id="electionStatusBadge">Seçim Süreci Aktif</span>
+            </div>
+            <div class="panel-card-body">
+              <div class="share-qr-grid">
+                <div>
+                  <p style="font-size: 0.9rem; color: #334155; margin-bottom: 0.5rem;">
+                    Aşağıdaki bağlantıyı kopyalayarak <strong>WhatsApp, E-posta, SMS veya Öğrenci Bilgi Sistemi</strong> üzerinden öğrencilere ve velilere gönderebilirsiniz:
+                  </p>
+
+                  <div id="tunnelStatusBanner" class="alert-box alert-info" style="margin-bottom: 0.75rem; padding: 0.65rem 0.95rem; font-size: 0.85rem;">
+                    <span>🌐</span>
+                    <div id="tunnelStatusText">Okul dışı canlı internet bağlantısı kontrol ediliyor...</div>
+                  </div>
+
+                  <div class="link-copy-bar">
+                    <input type="text" id="studentShareLinkInput" class="form-control" readonly />
+                    <button class="btn btn-primary" onclick="copyStudentShareLink()">
+                      📋 LİNKİ KOPYALA
+                    </button>
+                  </div>
+
+                  <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center; margin-bottom: 1rem;">
+                    <span style="font-size:0.78rem; color:#64748b; font-weight:600;">Bağlantı Türü:</span>
+                    <div id="networkUrlSelector" style="display:flex; gap:0.4rem; flex-wrap:wrap;"></div>
+                    <button id="btnStartPublicTunnel" class="btn btn-sm btn-outline" onclick="startPublicInternetTunnel(true)">
+                      🔄 Canlı İnternet Linkini Yenile
+                    </button>
+                  </div>
+
+                  <!-- DÜZENLENEBİLİR SMS / WHATSAPP VELİ DUYURU METNİ ALANI -->
+                  <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 1rem; margin-bottom: 0.9rem;">
+                    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.6rem;">
+                      <label for="smsAnnouncementEditor" style="font-size:0.9rem; font-weight:800; color:#0f172a; margin:0; display:flex; align-items:center; gap:0.4rem;">
+                        <span>📱</span> DÜZENLENEBİLİR SMS / VELİ DUYURU METNİ
+                      </label>
+                      <div style="display:flex; align-items:center; gap:0.45rem; flex-wrap:wrap;">
+                        <span id="smsSavedStatusBadge" class="badge badge-success" style="font-size:0.73rem;">✓ Kayıtlı Metin</span>
+                        <span id="smsCharCountBadge" class="badge badge-primary" style="font-size:0.75rem;">0 Karakter • 1 SMS</span>
+                      </div>
+                    </div>
+
+                    <!-- Hazır Şablonlar ve Hızlı Ekleme Butonları -->
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.45rem; margin-bottom:0.55rem;">
+                      <div style="display:flex; align-items:center; gap:0.35rem; flex-wrap:wrap;">
+                        <span style="font-size:0.74rem; font-weight:700; color:#475569;">Hazır Şablon:</span>
+                        <button type="button" class="btn btn-outline btn-sm" style="padding:0.2rem 0.55rem; font-size:0.74rem;" onclick="applySmsPreset('short')">
+                          📌 Kısa SMS
+                        </button>
+                        <button type="button" class="btn btn-outline btn-sm" style="padding:0.2rem 0.55rem; font-size:0.74rem;" onclick="applySmsPreset('official')">
+                          🏫 Resmi Veli Duyurusu
+                        </button>
+                        <button type="button" class="btn btn-outline btn-sm" style="padding:0.2rem 0.55rem; font-size:0.74rem;" onclick="applySmsPreset('whatsapp')">
+                          💬 WhatsApp Grubu
+                        </button>
+                      </div>
+
+                      <div style="display:flex; align-items:center; gap:0.35rem; flex-wrap:wrap;">
+                        <span style="font-size:0.74rem; font-weight:700; color:#475569;">Metne Ekle:</span>
+                        <button type="button" class="btn btn-outline btn-sm" style="padding:0.2rem 0.55rem; font-size:0.74rem;" onclick="insertIntoSmsEditor('LINK')">
+                          ➕ Seçili Link
+                        </button>
+                        <button type="button" class="btn btn-outline btn-sm" style="padding:0.2rem 0.55rem; font-size:0.74rem;" onclick="insertIntoSmsEditor('SCHOOL')">
+                          ➕ Okul Adı
+                        </button>
+                        <button type="button" class="btn btn-outline btn-sm" style="padding:0.2rem 0.55rem; font-size:0.74rem;" onclick="insertIntoSmsEditor('DEADLINE')">
+                          ➕ Son Tarih
+                        </button>
+                      </div>
+                    </div>
+
+                    <textarea
+                      id="smsAnnouncementEditor"
+                      class="form-control"
+                      rows="4"
+                      style="font-size:0.9rem; line-height:1.5; background:#ffffff; border-color:#94a3b8; margin-bottom:0.65rem;"
+                      placeholder="Velilere ve öğrencilere gönderilecek SMS / WhatsApp duyuru metnini buraya yazabilir veya düzenleyebilirsiniz..."
+                      oninput="handleSmsEditorInput()"
+                    ></textarea>
+
+                    <div style="background:#ecfdf5; border:1px solid #86efac; border-radius:10px; padding:0.75rem 0.9rem; margin-bottom:0.65rem;">
+                      <div style="font-size:0.8rem; font-weight:800; color:#166534; margin-bottom:0.35rem;">
+                        ✉️ VELİNİN GÖRECEĞİ MESAJ (E-posta / Word / e-Okul — sadece https://balikesirbahcesehirkoleji görünür, tıklanınca doğru bağlantıya gider)
+                      </div>
+                      <div id="richAnnouncementPreview" style="background:#ffffff; border:1px solid #bbf7d0; border-radius:8px; padding:0.6rem 0.75rem; font-size:0.88rem; line-height:1.55; color:#0f172a; white-space:normal;"></div>
+                      <div style="margin-top:0.5rem; display:flex; gap:0.45rem; flex-wrap:wrap; align-items:center;">
+                        <button type="button" class="btn btn-success btn-sm" onclick="copyRichAnnouncement()">
+                          ✉️ Gizli Bağlantılı Mesajı Kopyala (E-posta / Word için)
+                        </button>
+                        <span style="font-size:0.74rem; color:#475569;">
+                          ⚠️ SMS ve WhatsApp düz metin olduğu için bu iki kanalda bağlantının kendisi görünür; gizli bağlantı yalnızca e-posta, Word ve Google Docs gibi zengin metin alanlarında çalışır.
+                        </span>
+                      </div>
+                    </div>
+
+                    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem;">
+                      <div style="display:flex; gap:0.45rem; flex-wrap:wrap;">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="copySmsTemplate()">
+                          📋 SMS / Duyuru Metnini Kopyala
+                        </button>
+                        <button type="button" class="btn btn-success btn-sm" onclick="saveSmsAnnouncementTemplate()">
+                          💾 Düzenlenen Metni Kaydet
+                        </button>
+                        <button type="button" class="btn btn-outline btn-sm" onclick="resetSmsAnnouncementTemplate()">
+                          🔄 Varsayılan Metne Dön
+                        </button>
+                      </div>
+                      <span style="font-size:0.75rem; color:#64748b;">
+                        💡 Metin üzerinde istediğiniz değişikliği yapıp doğrudan kopyalayabilir veya kaydedebilirsiniz.
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="share-buttons-row">
+                    <button class="btn btn-success btn-sm" onclick="shareViaWhatsApp()">
+                      💬 Düzenlenen Metni WhatsApp ile Paylaş
+                    </button>
+                    <button class="btn btn-outline btn-sm" onclick="shareViaEmail()">
+                      ✉️ E-Posta ile Gönder
+                    </button>
+                    <button class="btn btn-outline btn-sm" onclick="openStudentPreviewInNewTab()">
+                      ↗️ Öğrenci Ekranını Yeni Sekmede Aç
+                    </button>
+                  </div>
+                </div>
+
+                <!-- QR KOD ALANI (#18) -->
+                <div class="qr-preview-box">
+                  <div style="font-size: 0.82rem; font-weight: 700; color: #1e293b; margin-bottom: 0.45rem;">
+                    OTOMATİK ÖĞRENCİ SEÇİM QR KODU
+                  </div>
+                  <img id="studentQrImage" alt="Öğrenci Kulüp Seçim QR Kodu" src="" />
+                  <button class="btn btn-primary btn-sm" style="width: 100%; max-width: 210px;" onclick="downloadStudentQrCode()">
+                    ⬇️ QR KODU İNDİR
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- GRAFİKLER (#29) -->
+          <div class="charts-grid-2">
+            <div class="panel-card" style="margin-bottom:0;">
+              <div class="panel-card-header">
+                <h3>📊 Kulüp Bazlı Öğrenci Sayıları ve Kontenjan Grafiği</h3>
+              </div>
+              <div class="panel-card-body">
+                <div class="chart-canvas-wrap">
+                  <canvas id="clubBarChart"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-card" style="margin-bottom:0;">
+              <div class="panel-card-header">
+                <h3>🥧 Kulüp Tercih Dağılımı (Pasta Grafik)</h3>
+              </div>
+              <div class="panel-card-body">
+                <div class="chart-canvas-wrap">
+                  <canvas id="clubPieChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ANLIK ÖĞRENCİ SEÇİM HAVUZU VE YERLEŞTİRME LİSTESİ (#10) -->
+          <div class="panel-card" style="margin-top: 1.5rem;">
+            <div class="panel-card-header">
+              <div>
+                <h3>⚡ ANLIK ÖĞRENCİ KULÜP TERCİH HAVUZU VE YERLEŞTİRME LİSTESİ</h3>
+                <span style="font-size:0.8rem; color:#475569;">
+                  (3 ve daha az öğrenci seçen kulüpler açılmaz; öğrenciler otomatik olarak 2. veya 3. tercihlerine yerleştirilir)
+                </span>
+              </div>
+              <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                <input
+                  type="text"
+                  id="quickDashboardSearch"
+                  class="form-control"
+                  style="padding: 0.4rem 0.75rem; font-size: 0.85rem; width: 230px;"
+                  placeholder="Hızlı ara (Ad, Sınıf, Kulüp...)"
+                  oninput="renderDashboardRecentTable()"
+                />
+                <button class="btn btn-primary btn-sm" onclick="handleRecalculatePool(false)">
+                  🎯 Otomatik Dağıtma
+                </button>
+                <button class="btn btn-outline btn-sm" onclick="switchAdminTab('students')">
+                  Tümünü Yönet →
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Sıra</th>
+                    <th>Ad Soyad</th>
+                    <th>Sınıf</th>
+                    <th>No</th>
+                    <th>1. / 2. / 3. Tercihleri</th>
+                    <th>Yerleştiği (Kayıtlı) Kulüp</th>
+                    <th>Atama Durumu</th>
+                    <th>Tarih</th>
+                    <th>İşlem</th>
+                  </tr>
+                </thead>
+                <tbody id="dashboardLiveSelectionsBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             SEKME 2: ÖĞRENCİLER (#10, #11, #26)
+             ================================================================== -->
+        <section id="tab-students" class="admin-tab-section" style="display: none;">
+          <div class="page-header-bar">
+            <div class="page-header-title">
+              <h2>ÖĞRENCİLER, 3 TERCİH HAVUZU VE KULÜP KAYITLARI</h2>
+              <p>Öğrencilerin 1., 2. ve 3. kulüp tercihlerini, otomatik yerleşme durumlarını yönetin, kulüplerini değiştirin veya öğrencileri silin</p>
+            </div>
+            <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+              <button class="btn btn-primary btn-sm" onclick="handleRecalculatePool(true)" title="Havuzdaki öğrencileri 1., 2. ve 3. tercihlerine göre otomatik dağıt">
+                🎯 Otomatik Dağıtma
+              </button>
+              <button id="btnBulkDeleteStudents" class="btn btn-danger btn-sm" style="display:none;" onclick="handleBulkDeleteSelectedStudents()">
+                🗑️ Seçili Öğrencileri Sil (<span id="selectedStudentsCountSpan">0</span>)
+              </button>
+              <button class="btn btn-danger btn-sm" onclick="handleDeleteAllStudentsConfirm()">
+                🗑️ Tüm Öğrencileri Sil
+              </button>
+              <button class="btn btn-outline btn-sm" onclick="switchAdminTab('upload')">
+                + Yeni Öğrenci / Liste Ekle
+              </button>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-card-body">
+              <!-- ARAMA VE FİLTRE ÇUBUĞU (#11) -->
+              <div class="filter-toolbar">
+                <input
+                  type="text"
+                  id="filterStudentSearch"
+                  class="form-control"
+                  placeholder="🔍 Ad, Soyad, Öğrenci No, Sınıf veya Kulüp ara..."
+                  oninput="renderStudentsManageTable()"
+                />
+                <select id="filterStudentClass" class="form-control" onchange="renderStudentsManageTable()">
+                  <option value="">Tüm Sınıflar</option>
+                </select>
+                <select id="filterStudentClub" class="form-control" onchange="renderStudentsManageTable()">
+                  <option value="">Tüm Kulüpler (Yerleştiği)</option>
+                </select>
+                <select id="filterStudentStatus" class="form-control" onchange="renderStudentsManageTable()">
+                  <option value="">Tüm Durumlar</option>
+                  <option value="selected">Tercih Yapanlar</option>
+                  <option value="pending">Havuzda Dağıtım Bekleyenler</option>
+                  <option value="unselected">Tercih Yapmayanlar</option>
+                  <option value="choice1">1. Tercihine Yerleşenler</option>
+                  <option value="choice2">2. Tercihine Atananlar</option>
+                  <option value="choice3">3. Tercihine Kaydedilenler</option>
+                </select>
+                <button class="btn btn-outline" onclick="resetStudentFilters()">
+                  Temizle
+                </button>
+              </div>
+
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th style="width:36px;">
+                        <input type="checkbox" id="chkSelectAllStudents" onchange="toggleSelectAllStudents(this.checked)" title="Tümünü Seç" />
+                      </th>
+                      <th>Sıra</th>
+                      <th>Ad Soyad</th>
+                      <th>Sınıf</th>
+                      <th>No</th>
+                      <th>Öğrencinin 3 Tercihi (1. → 2. → 3.)</th>
+                      <th>Yerleştiği Kulüp</th>
+                      <th>Atama Durumu</th>
+                      <th>Tarih</th>
+                      <th style="text-align:right;">Yönetici İşlemleri (Değiştir / Sil)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="studentsManageTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             SEKME 3: KULÜPLER VE KULÜP BAZLI LİSTE (#12, #14, #15)
+             ================================================================== -->
+        <section id="tab-clubs" class="admin-tab-section" style="display: none;">
+          <div class="page-header-bar">
+            <div class="page-header-title">
+              <h2>KULÜP VE KONTENJAN YÖNETİMİ</h2>
+              <p>Kulüp ekleyin, kontenjanları düzenleyin ve bir kulübün üzerine tıklayarak o kulübü seçen öğrencileri görüntüleyin</p>
+            </div>
+            <button class="btn btn-primary" onclick="openClubFormModal()">
+              + Yeni Kulüp Ekle
+            </button>
+          </div>
+
+          <!-- Kulüp Kartları Listesi -->
+          <div id="adminClubsGrid" class="clubs-grid" style="margin-bottom: 1.75rem;"></div>
+
+          <!-- Seçili Kulübün Öğrenci Listesi Detayı (#12) -->
+          <div id="selectedClubDetailPanel" class="panel-card" style="display: none;">
+            <div class="panel-card-header" style="background: #eff6ff; border-bottom-color: #bfdbfe;">
+              <div>
+                <h3 id="clubDetailTitle" style="font-size: 1.2rem; color: #1e3a8a;">SATRANÇ KULÜBÜ</h3>
+                <span id="clubDetailSubtitle" style="font-size: 0.86rem; color: #334155; font-weight: 600;">
+                  Toplam Öğrenci: 0
+                </span>
+              </div>
+              <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+                <button id="btnClubExportDocx" class="btn btn-primary btn-sm">
+                  📘 Word Olarak İndir (.docx)
+                </button>
+                <button id="btnClubExportPdf" class="btn btn-danger btn-sm">
+                  📕 PDF Olarak İndir (.pdf)
+                </button>
+              </div>
+            </div>
+            <div class="panel-card-body">
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 80px;">Sıra</th>
+                      <th>Ad Soyad</th>
+                      <th>Sınıf</th>
+                      <th>No</th>
+                      <th>Seçim Tarihi</th>
+                      <th style="text-align:right;">İşlem</th>
+                    </tr>
+                  </thead>
+                  <tbody id="clubDetailStudentsBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             SEKME 4: SINIFLAR VE SINIF BAZLI RAPOR (#13)
+             ================================================================== -->
+        <section id="tab-classes" class="admin-tab-section" style="display: none;">
+          <div class="page-header-bar">
+            <div class="page-header-title">
+              <h2>SINIF BAZLI KULÜP RAPORU VE SINIF YÖNETİMİ</h2>
+              <p>Her sınıfa tekli veya toplu öğrenci ekleyin, sınıftaki öğrencileri silin, yeni sınıf oluşturun veya sınıf bazlı rapor alın</p>
+            </div>
+            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+              <input type="text" id="newClassNameInput" class="form-control" placeholder="Yeni Sınıf (Örn: 6C)" style="width: 160px; padding: 0.45rem 0.75rem;" />
+              <button class="btn btn-primary btn-sm" onclick="handleAddClass()">+ Sınıf Ekle</button>
+              <button id="btnOpenAddStudentSelectedClass" class="btn btn-success btn-sm" onclick="openClassAddStudentModal(state.selectedClassForReport)">
+                ➕ Seçili Sınıfa Öğrenci Ekle
+              </button>
+              <button id="btnDeleteSelectedClass" class="btn btn-danger btn-sm" onclick="handleDeleteSelectedClass()">
+                🗑️ Seçili Sınıfı Sil
+              </button>
+            </div>
+          </div>
+
+          <!-- SINIF SEÇİM VE HER SINIFA ÖĞRENCİ EKLEME / SİLME BAR -->
+          <div id="classPillsContainer" class="class-pills-bar"></div>
+
+          <div class="panel-card">
+            <div class="panel-card-header">
+              <div>
+                <h3 id="selectedClassReportHeading">6A SINIFI</h3>
+                <span id="selectedClassSubtitle" style="font-size:0.82rem; color:#64748b;">Sınıftaki öğrenci ve kulüp dağılım listesi</span>
+              </div>
+              <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                <button class="btn btn-success btn-sm" onclick="openClassAddStudentModal(state.selectedClassForReport)">
+                  ➕ Bu Sınıfa Öğrenci Ekle
+                </button>
+                <button id="btnBulkDeleteClassStudents" class="btn btn-danger btn-sm" style="display:none;" onclick="handleBulkDeleteClassStudents()">
+                  🗑️ Seçili Öğrencileri Sil (<span id="selectedClassStudentsCountSpan">0</span>)
+                </button>
+                <button class="btn btn-outline btn-sm" style="color:#dc2626; border-color:#fecaca;" onclick="handleClearAllStudentsInClass()">
+                  🧹 Sınıftaki Tüm Öğrencileri Sil
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="exportCurrentClassReport('docx')">
+                  📘 Word İndir (.docx)
+                </button>
+                <button class="btn btn-danger btn-sm" onclick="exportCurrentClassReport('pdf')">
+                  📕 PDF İndir (.pdf)
+                </button>
+                <button class="btn btn-outline btn-sm" style="color:#dc2626; border-color:#fecaca;" onclick="handleDeleteSelectedClass()">
+                  🗑️ Bu Sınıfı Sil
+                </button>
+              </div>
+            </div>
+            <div class="panel-card-body">
+              <!-- SEÇİLİ SINIFA HIZLI ÖĞRENCİ EKLEME FORMU -->
+              <div style="background:#f0fdf4; border:1.5px solid #bbf7d0; border-radius:10px; padding:0.9rem 1.1rem; margin-bottom:1.25rem;">
+                <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.65rem;">
+                  <div style="font-weight:800; color:#166534; font-size:0.92rem;">
+                    ➕ <span id="quickAddClassLabel">6A</span> SINIFINA HIZLI ÖĞRENCİ EKLE
+                  </div>
+                  <button type="button" class="btn btn-outline btn-sm" style="background:#ffffff;" onclick="openClassAddStudentModal(state.selectedClassForReport)">
+                    📋 Toplu Öğrenci Listesi Yapıştır / Ekle
+                  </button>
+                </div>
+                <form onsubmit="handleQuickAddStudentToCurrentClass(event)" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap:0.65rem; align-items:end;">
+                  <div>
+                    <label style="display:block; font-size:0.76rem; font-weight:700; color:#15803d; margin-bottom:0.25rem;">Öğrenci Adı</label>
+                    <input type="text" id="clsQuickAddFirst" class="form-control" placeholder="Örn: Zeynep" required style="background:#ffffff; padding:0.45rem 0.7rem;" />
+                  </div>
+                  <div>
+                    <label style="display:block; font-size:0.76rem; font-weight:700; color:#15803d; margin-bottom:0.25rem;">Öğrenci Soyadı</label>
+                    <input type="text" id="clsQuickAddLast" class="form-control" placeholder="Örn: Kaya" required style="background:#ffffff; padding:0.45rem 0.7rem;" />
+                  </div>
+                  <div>
+                    <label style="display:block; font-size:0.76rem; font-weight:700; color:#15803d; margin-bottom:0.25rem;">Öğrenci Numarası</label>
+                    <input type="text" id="clsQuickAddNo" class="form-control" placeholder="Örn: 145" required style="background:#ffffff; padding:0.45rem 0.7rem;" />
+                  </div>
+                  <div>
+                    <button type="submit" id="btnQuickAddStudentToClass" class="btn btn-success" style="width:100%; padding:0.5rem 0.9rem; font-weight:800;">
+                      ➕ Öğrenciyi Sınıfa Ekle
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              <div id="classArrowSummaryBox" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap:0.75rem; margin-bottom:1.5rem;"></div>
+
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th style="width:36px;">
+                        <input type="checkbox" id="chkSelectAllClassStudents" onchange="toggleSelectAllClassStudents(this.checked)" title="Bu Sınıftaki Tüm Öğrencileri Seç" />
+                      </th>
+                      <th>Sıra</th>
+                      <th>Ad Soyad</th>
+                      <th>Sınıf</th>
+                      <th>Öğrenci No</th>
+                      <th>Öğrencinin 3 Tercihi</th>
+                      <th>Yerleştiği Kulüp</th>
+                      <th>Seçim Tarihi</th>
+                      <th style="text-align:right;">Öğrenci İşlemleri (Değiştir / Sil)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="classReportTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             SEKME 5: SEÇİM DURUMU & KULÜP SEÇMEYEN ÖĞRENCİLER (#22)
+             ================================================================== -->
+        <section id="tab-unselected" class="admin-tab-section" style="display: none;">
+          <div class="page-header-bar">
+            <div class="page-header-title">
+              <h2>KULÜP SEÇİMİ YAPMAYAN ÖĞRENCİLER</h2>
+              <p>Okulun kayıtlı öğrenci listesi içerisinden henüz kulüp seçimi yapmamış öğrenciler</p>
+            </div>
+            <div style="display:flex; gap:0.5rem;">
+              <button class="btn btn-primary btn-sm" onclick="exportUnselectedStudents('docx')">
+                📘 Seçmeyenleri Word İndir (.docx)
+              </button>
+              <button class="btn btn-danger btn-sm" onclick="exportUnselectedStudents('pdf')">
+                📕 Seçmeyenleri PDF İndir (.pdf)
+              </button>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-card-header">
+              <h3>⏳ HENÜZ KULÜP SEÇİMİ YAPMAYAN ÖĞRENCİ LİSTESİ</h3>
+              <select id="unselectedClassFilter" class="form-control" style="width:180px; padding:0.4rem 0.75rem;" onchange="renderUnselectedStudentsTab()">
+                <option value="">Tüm Sınıflar</option>
+              </select>
+            </div>
+            <div class="panel-card-body">
+              <div id="unselectedQuickChips" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap:0.65rem; margin-bottom:1.25rem;"></div>
+
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Sıra</th>
+                      <th>Ad Soyad</th>
+                      <th>Sınıf</th>
+                      <th>Öğrenci No</th>
+                      <th>Durum</th>
+                      <th style="text-align:right;">Yönetici Kulüp Atama</th>
+                    </tr>
+                  </thead>
+                  <tbody id="unselectedTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             SEKME 6: RAPORLAR (#28 - 8 KAPSAMLI RAPOR)
+             ================================================================== -->
+        <section id="tab-reports" class="admin-tab-section" style="display: none;">
+          <div class="page-header-bar">
+            <div class="page-header-title">
+              <h2>DETAYLI SİSTEM RAPORLARI</h2>
+              <p>İstediğiniz rapor türünü seçerek görüntüleyin, yazdırın veya Word/PDF olarak indirin</p>
+            </div>
+          </div>
+
+          <!-- 8 Rapor Türü Seçim Butonları (#28) -->
+          <div class="report-tabs-grid">
+            <button class="report-tab-btn active" data-report="all" onclick="selectSystemReport('all')">
+              1. Tüm Öğrenciler Raporu
+            </button>
+            <button class="report-tab-btn" data-report="selected" onclick="selectSystemReport('selected')">
+              2. Kulüp Seçen Öğrenciler
+            </button>
+            <button class="report-tab-btn" data-report="unselected" onclick="selectSystemReport('unselected')">
+              3. Kulüp Seçmeyen Öğrenciler
+            </button>
+            <button class="report-tab-btn" data-report="by-club" onclick="selectSystemReport('by-club')">
+              4. Kulüp Bazlı Öğrenci Listesi
+            </button>
+            <button class="report-tab-btn" data-report="by-class" onclick="selectSystemReport('by-class')">
+              5. Sınıf Bazlı Kulüp Listesi
+            </button>
+            <button class="report-tab-btn" data-report="quota" onclick="selectSystemReport('quota')">
+              6. Kulüp Kontenjan Raporu
+            </button>
+            <button class="report-tab-btn" data-report="dates" onclick="selectSystemReport('dates')">
+              7. Öğrenci Seçim Tarihleri
+            </button>
+            <button class="report-tab-btn" data-report="distribution" onclick="selectSystemReport('distribution')">
+              8. Tüm Kulüplerin Dağılım Raporu
+            </button>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-card-header">
+              <div>
+                <h3 id="activeReportTitle">1. TÜM ÖĞRENCİLER RAPORU</h3>
+                <span id="activeReportSubtitle" style="font-size:0.82rem; color:#64748b;"></span>
+              </div>
+              <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+                <select id="reportSubFilterSelect" class="form-control" style="display:none; width:210px; padding:0.4rem 0.7rem;" onchange="renderActiveSystemReport()"></select>
+                <button class="btn btn-primary btn-sm" onclick="downloadActiveReport('docx')">
+                  📘 Word İndir (.docx)
+                </button>
+                <button class="btn btn-danger btn-sm" onclick="downloadActiveReport('pdf')">
+                  📕 PDF İndir (.pdf)
+                </button>
+                <button class="btn btn-outline btn-sm" onclick="window.print()">
+                  🖨️ Yazdır
+                </button>
+              </div>
+            </div>
+            <div class="panel-card-body">
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead id="activeReportTableHead"></thead>
+                  <tbody id="activeReportTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             SEKME 7: WORD / PDF DIŞA AKTARMA MERKEZİ (#19, #20, #21)
+             ================================================================== -->
+        <section id="tab-exports" class="admin-tab-section" style="display: none;">
+          <div class="page-header-bar">
+            <div class="page-header-title">
+              <h2>WORD (.DOCX) VE PDF (.PDF) ÇIKTI MERKEZİ</h2>
+              <p>Tüm kulüpleri tek dosyada veya her kulübü ayrı resmi A4 Word ve PDF belgesi olarak indirin</p>
+            </div>
+          </div>
+
+          <!-- TÜM KULÜPLERİ DIŞA AKTARMA (#21) -->
+          <div class="panel-card" style="border: 2px solid #93c5fd; background: linear-gradient(to right, #ffffff, #eff6ff);">
+            <div class="panel-card-body" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1.25rem;">
+              <div>
+                <span class="badge badge-primary" style="margin-bottom:0.4rem;">TOPLU RESMİ BELGE OLUŞTURMA</span>
+                <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">
+                  TÜM KULÜPLERİN ÖĞRENCİ LİSTELERİNİ TEK DOSYADA İNDİR
+                </h3>
+                <p style="font-size: 0.9rem; color: #475569; max-width: 640px;">
+                  Satranç, Müzik, Spor, Robotik, Proje vb. tüm kulüplerin öğrenci listeleri okul başlığı ve resmi tablo düzeniyle tek bir Word veya A4 PDF dosyasında ayrı sayfalar halinde hazırlanır.
+                </p>
+              </div>
+              <div style="display:flex; gap:0.85rem; flex-wrap:wrap;">
+                <button class="btn btn-primary" style="padding: 0.9rem 1.4rem; font-size: 0.96rem;" onclick="downloadAllClubsFile('docx')">
+                  📘 TÜM KULÜPLERİ WORD'E AKTAR (.docx)
+                </button>
+                <button class="btn btn-danger" style="padding: 0.9rem 1.4rem; font-size: 0.96rem;" onclick="downloadAllClubsFile('pdf')">
+                  📕 TÜM KULÜPLERİ PDF'E AKTAR (.pdf)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- KULÜP BAZLI TEK TEK WORD VE PDF İNDİRME (#19, #20) -->
+          <div class="panel-card">
+            <div class="panel-card-header">
+              <h3>📂 Kulüp Bazlı Ayrı Word (.docx) ve PDF (.pdf) Dosyaları</h3>
+            </div>
+            <div class="panel-card-body">
+              <div id="exportClubsListGrid" class="clubs-grid"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             SEKME 8: ÖN TANIMLI ÖĞRENCİ LİSTESİ YÜKLE (#23, #24)
+             ================================================================== -->
+        <section id="tab-upload" class="admin-tab-section" style="display: none;">
+          <div class="page-header-bar">
+            <div class="page-header-title">
+              <h2>ÖN TANIMLI OKUL ÖĞRENCİ LİSTESİ YÖNETİMİ</h2>
+              <p>Excel/CSV dosyası yükleyerek sadece okulda kayıtlı öğrencilerin kimlik doğrulamasıyla kulüp seçmesini sağlayın</p>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="downloadStudentExcelTemplate()">
+              📥 Örnek Excel Şablonu İndir (.xlsx)
+            </button>
+          </div>
+
+          <div class="share-qr-grid">
+            <!-- Excel / CSV Dosyası Yükleme -->
+            <div class="panel-card">
+              <div class="panel-card-header">
+                <h3>📊 Excel (.xlsx, .xls) veya CSV Dosyası İle Toplu Yükle</h3>
+              </div>
+              <div class="panel-card-body">
+                <p style="font-size: 0.88rem; color: #475569; margin-bottom: 1rem;">
+                  Yükleyeceğiniz Excel veya CSV dosyasında <strong>Ad | Soyad | Sınıf | Öğrenci No</strong> sütunları bulunmalıdır.
+                </p>
+
+                <div class="form-group">
+                  <label for="excelFileInput">Excel / CSV Dosyası Seçiniz</label>
+                  <input
+                    type="file"
+                    id="excelFileInput"
+                    class="form-control"
+                    accept=".xlsx,.xls,.csv"
+                  />
+                </div>
+
+                <div class="form-group" style="display:flex; align-items:center; gap:0.5rem;">
+                  <input type="checkbox" id="chkReplaceStudents" style="width:18px; height:18px;" />
+                  <label for="chkReplaceStudents" style="margin:0; font-weight:500; font-size:0.88rem;">
+                    Mevcut öğrenci listesini temizleyip sadece bu dosyadaki öğrencileri kaydet
+                  </label>
+                </div>
+
+                <button class="btn btn-primary" onclick="handleExcelFileUpload()">
+                  📤 Seçilen Dosyayı Sisteme Yükle
+                </button>
+
+                <hr style="margin: 1.4rem 0; border: none; border-top: 1px solid #e2e8f0;" />
+
+                <h4 style="font-size: 0.92rem; font-weight: 700; margin-bottom: 0.5rem;">
+                  📋 Veya Excel'den Kopyala - Yapıştır İle Hızlı Yükle
+                </h4>
+                <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 0.5rem;">
+                  Her satıra <code>Ad, Soyad, Sınıf, Öğrenci No</code> (virgül, noktalı virgül veya Sekme/Tab ile ayrılmış) yazarak toplu ekleyebilirsiniz:
+                </p>
+                <textarea
+                  id="bulkPasteStudentsText"
+                  class="form-control"
+                  rows="4"
+                  placeholder="Ahmet; Yılmaz; 6A; 15&#10;Ayşe; Demir; 6B; 21&#10;Mehmet; Kaya; 7A; 8"
+                  style="font-family: monospace; font-size: 0.85rem; margin-bottom: 0.75rem;"
+                ></textarea>
+                <button class="btn btn-secondary btn-sm" onclick="handleBulkTextPasteUpload()">
+                  + Yapıştırılan Öğrencileri Listeye Ekle
+                </button>
+              </div>
+            </div>
+
+            <!-- Tek Öğrenci Ekleme ve Doğrulama Modu -->
+            <div>
+              <div class="panel-card">
+                <div class="panel-card-header">
+                  <h3>➕ Tek Öğrenci Ekle / Güncelle</h3>
+                </div>
+                <div class="panel-card-body">
+                  <form onsubmit="handleAddSingleStudent(event)">
+                    <div class="form-row-2">
+                      <div class="form-group">
+                        <label>Ad</label>
+                        <input type="text" id="addStFirst" class="form-control" placeholder="Örn: Ahmet" required />
+                      </div>
+                      <div class="form-group">
+                        <label>Soyad</label>
+                        <input type="text" id="addStLast" class="form-control" placeholder="Örn: Yılmaz" required />
+                      </div>
+                    </div>
+                    <div class="form-row-2">
+                      <div class="form-group">
+                        <label>Sınıf</label>
+                        <input type="text" id="addStClass" class="form-control" placeholder="Örn: 6A" required />
+                      </div>
+                      <div class="form-group">
+                        <label>Öğrenci No</label>
+                        <input type="text" id="addStNo" class="form-control" placeholder="Örn: 15" required />
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-success" style="width:100%;">
+                      ✓ Öğrenciyi Kayıtlı Listeye Ekle
+                    </button>
+                  </form>
+                </div>
+              </div>
+
+              <div class="panel-card">
+                <div class="panel-card-header">
+                  <h3>🛡️ Öğrenci Kimlik Doğrulama Kuralı</h3>
+                </div>
+                <div class="panel-card-body">
+                  <div style="display:flex; align-items:flex-start; gap:0.75rem;">
+                    <input
+                      type="checkbox"
+                      id="chkRequireVerificationQuick"
+                      style="width:20px; height:20px; margin-top:2px;"
+                      onchange="toggleRequireVerificationQuick(this.checked)"
+                    />
+                    <div>
+                      <label for="chkRequireVerificationQuick" style="font-weight:700; font-size:0.92rem; display:block;">
+                        Sadece Okul Listesinde Kayıtlı Öğrenciler Kulüp Seçebilsin
+                      </label>
+                      <span style="font-size:0.82rem; color:#475569;">
+                        Aktif olduğunda öğrenci giriş yaparken Ad, Soyad, Sınıf ve Öğrenci No bilgileri sistemdeki listeyle karşılaştırılır. Eşleşmezse uyarı verilir.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kayıtlı Öğrenci Listesi Özeti -->
+          <div class="panel-card">
+            <div class="panel-card-header">
+              <h3>📋 Sistemde Kayıtlı Ön Tanımlı Öğrenci Listesi (<span id="registeredStudentsCountLabel">0</span> Öğrenci)</h3>
+              <button class="btn btn-danger btn-sm" onclick="handleDeleteAllStudentsConfirm()">
+                🗑️ Tüm Öğrencileri Sil
+              </button>
+            </div>
+            <div class="panel-card-body">
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Sıra</th>
+                      <th>Ad</th>
+                      <th>Soyad</th>
+                      <th>Sınıf</th>
+                      <th>Öğrenci No</th>
+                      <th>Kulüp Seçim Durumu</th>
+                      <th style="text-align:right;">İşlem</th>
+                    </tr>
+                  </thead>
+                  <tbody id="registeredStudentsTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             SEKME 9: VERİ YEDEKLEME VE GERİ YÜKLEME (#27)
+             ================================================================== -->
+        <section id="tab-backup" class="admin-tab-section" style="display: none;">
+          <div class="page-header-bar">
+            <div class="page-header-title">
+              <h2>VERİ YEDEKLEME VE GERİ YÜKLEME</h2>
+              <p>Öğrenci seçimlerini ve sistem verilerini JSON/CSV formatında yedekleyin veya yedeği geri yükleyin</p>
+            </div>
+          </div>
+
+          <div class="share-qr-grid">
+            <div class="panel-card">
+              <div class="panel-card-header">
+                <h3>💾 VERİLERİ YEDEKLE</h3>
+              </div>
+              <div class="panel-card-body">
+                <p style="font-size: 0.9rem; color: #475569; margin-bottom: 1.2rem;">
+                  Tüm kulüp tanımlarını, kayıtlı öğrenci listesini, öğrenci kulüp seçimlerini ve sistem ayarlarını bilgisayarınıza indirebilirsiniz.
+                </p>
+                <div style="display:flex; flex-direction:column; gap:0.85rem;">
+                  <button class="btn btn-primary" onclick="downloadBackupJson()">
+                    📦 Tam Sistem Yedeğini İndir (.JSON)
+                  </button>
+                  <button class="btn btn-success" onclick="downloadBackupCsv()">
+                    📊 Öğrenci Seçimlerini Excel / CSV Olarak İndir (.CSV)
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-card">
+              <div class="panel-card-header">
+                <h3>♻️ YEDEĞİ GERİ YÜKLE</h3>
+              </div>
+              <div class="panel-card-body">
+                <p style="font-size: 0.9rem; color: #475569; margin-bottom: 1rem;">
+                  Daha önce aldığınız <code>.json</code> yedek dosyasını seçerek tüm kayıtları sisteme geri yükleyebilirsiniz.
+                </p>
+                <div class="form-group">
+                  <input type="file" id="restoreBackupFileInput" class="form-control" accept=".json" />
+                </div>
+                <button class="btn btn-primary" onclick="handleRestoreBackup()">
+                  ⬆️ Yedek Dosyasını Geri Yükle
+                </button>
+
+                <hr style="margin: 1.4rem 0; border:none; border-top:1px solid #e2e8f0;" />
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem;">
+                  <span style="font-size:0.82rem; color:#64748b;">Sistemi ilk kurulumdaki örnek okul verilerine döndür:</span>
+                  <button class="btn btn-outline btn-sm" onclick="handleResetDemoData()">
+                    🔄 Örnek Verileri Sıfırla
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             SEKME 10: AYARLAR (#16, #2)
+             ================================================================== -->
+        <section id="tab-settings" class="admin-tab-section" style="display: none;">
+          <div class="page-header-bar">
+            <div class="page-header-title">
+              <h2>SİSTEM, SEÇİM TARİHLERİ VE BULUT AYARLARI</h2>
+              <p>Okul bilgilerini, kulüp seçim başlangıç/bitiş tarihlerini ve merkezi bulut veritabanı ayarlarını yönetin</p>
+            </div>
+          </div>
+
+          <form onsubmit="handleSaveSettings(event)">
+            <div class="share-qr-grid">
+              <!-- Okul ve Seçim Tarihleri (#16) -->
+              <div class="panel-card">
+                <div class="panel-card-header">
+                  <h3>🏫 Okul Bilgileri ve Seçim Tarihleri (#16)</h3>
+                </div>
+                <div class="panel-card-body">
+                  <div class="form-group">
+                    <label>Okul Adı (Word ve PDF Başlıklarında Görünür)</label>
+                    <input type="text" id="setSchoolName" class="form-control" required />
+                  </div>
+
+                  <div class="form-group">
+                    <label>Eğitim Öğretim Yılı</label>
+                    <input type="text" id="setAcademicYear" class="form-control" />
+                  </div>
+
+                  <div class="form-row-2">
+                    <div class="form-group">
+                      <label>Seçim Başlangıç Tarihi ve Saati</label>
+                      <input type="datetime-local" id="setSelectionStart" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                      <label>Seçim Bitiş Tarihi ve Saati</label>
+                      <input type="datetime-local" id="setSelectionEnd" class="form-control" required />
+                    </div>
+                  </div>
+
+                  <div class="form-group" style="display:flex; align-items:center; gap:0.6rem; margin-top:0.5rem;">
+                    <input type="checkbox" id="setIsSelectionOpen" style="width:18px; height:18px;" />
+                    <label for="setIsSelectionOpen" style="margin:0;">
+                      Kulüp Seçim Süreci Aktif (Kapatılırsa öğrencilere "KULÜP SEÇİM SÜRESİ SONA ERMİŞTİR." mesajı gösterilir)
+                    </label>
+                  </div>
+
+                  <div class="form-group" style="display:flex; align-items:center; gap:0.6rem;">
+                    <input type="checkbox" id="setRequireVerification" style="width:18px; height:18px;" />
+                    <label for="setRequireVerification" style="margin:0;">
+                      Öğrenci Kimlik Doğrulaması Zorunlu Olsun (Ad, Soyad, Sınıf ve Öğrenci No kayıtlı listeyle eşleşmeli)
+                    </label>
+                  </div>
+
+                  <div class="form-group" style="margin-top:0.85rem;">
+                    <label for="setSmsAnnouncementTemplate">Varsayılan SMS / WhatsApp Duyuru Metni Şablonu</label>
+                    <textarea
+                      id="setSmsAnnouncementTemplate"
+                      class="form-control"
+                      rows="3"
+                      placeholder="{OKUL_ADI}: Değerli velimiz ve öğrencimiz, öğrenci kulüp seçiminizi aşağıdaki resmi okul bağlantısına tıklayarak gerçekleştirebilirsiniz: {LINK}"
+                    ></textarea>
+                    <small style="color:#64748b; font-size:0.76rem;">
+                      <code>{OKUL_ADI}</code>, <code>{LINK}</code> ve <code>{SON_TARIH}</code> ifadeleri paylaşım sırasında otomatik olarak okul adınız ve aktif seçim linkinizle değiştirilir.
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Yönetici Şifresi ve Bulut Senkronizasyonu (#2, #8) -->
+              <div>
+                <div class="panel-card">
+                  <div class="panel-card-header">
+                    <h3>🔐 Yönetici Giriş Bilgileri</h3>
+                  </div>
+                  <div class="panel-card-body">
+                    <div class="form-row-2">
+                      <div class="form-group">
+                        <label>Yönetici Kullanıcı Adı</label>
+                        <input type="text" id="setAdminUsername" class="form-control" required />
+                      </div>
+                      <div class="form-group">
+                        <label>Yönetici Şifresi</label>
+                        <input type="text" id="setAdminPassword" class="form-control" required />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Özel Paylaşım Alan Adı / URL (İsteğe Bağlı)</label>
+                      <input type="url" id="setCustomPublicUrl" class="form-control" placeholder="Örn: https://okul-kulup.onrender.com" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-card">
+                  <div class="panel-card-header">
+                    <h3>☁️ Merkezi Bulut Veritabanı Senkronizasyonu (Opsiyonel)</h3>
+                  </div>
+                  <div class="panel-card-body">
+                    <p style="font-size:0.82rem; color:#475569; margin-bottom:0.85rem;">
+                      Sistem halihazırda dahili merkezi veritabanı sunucusu ile çalışmaktadır. İsterseniz ek olarak ücretsiz <strong>Firebase Realtime Database</strong> veya <strong>Supabase</strong> adresinizi bağlayarak verileri bulutla da senkronize edebilirsiniz:
+                    </p>
+                    <div class="form-group" style="display:flex; align-items:center; gap:0.5rem;">
+                      <input type="checkbox" id="setCloudEnabled" style="width:18px; height:18px;" />
+                      <label for="setCloudEnabled" style="margin:0;">Bulut Veritabanı Senkronizasyonunu Etkinleştir</label>
+                    </div>
+                    <div class="form-group">
+                      <label>Servis Sağlayıcı</label>
+                      <select id="setCloudProvider" class="form-control">
+                        <option value="firebase">Firebase Realtime Database</option>
+                        <option value="supabase">Supabase (PostgreSQL REST)</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Firebase DB URL veya Supabase Project URL</label>
+                      <input type="text" id="setCloudUrl" class="form-control" placeholder="https://okul-kulup-default-rtdb.firebaseio.com" />
+                    </div>
+                    <div class="form-group">
+                      <label>Supabase Anon API Key (Sadece Supabase için)</label>
+                      <input type="password" id="setCloudKey" class="form-control" placeholder="eyJhbGciOiJIUzI1NiIsInR5c..." />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; margin-top:0.5rem;">
+              <button type="submit" class="btn btn-primary" style="padding: 0.85rem 2rem; font-size: 1rem;">
+                💾 Tüm Ayarları Kaydet
+              </button>
+            </div>
+          </form>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       YÖNETİCİ MODALLARI (KULÜP EKLE/DÜZENLE & ÖĞRENCİ KULÜBÜ DEĞİŞTİR #15, #26)
+       ======================================================================== -->
+
+  <!-- 1. KULÜP EKLE / DÜZENLE MODALI (#15) -->
+  <div id="clubFormModal" class="modal-backdrop" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="clubModalTitle">Yeni Kulüp Ekle</h3>
+        <button class="btn btn-sm btn-outline" onclick="closeClubFormModal()">✕</button>
+      </div>
+      <form onsubmit="handleSaveClubForm(event)">
+        <div class="modal-body">
+          <input type="hidden" id="editClubId" />
+          <div class="form-group">
+            <label for="editClubName">Kulüp Adı</label>
+            <input type="text" id="editClubName" class="form-control" placeholder="Örn: SATRANÇ KULÜBÜ" required />
+          </div>
+          <div class="form-group">
+            <label for="editClubDesc">Kulüp Açıklaması</label>
+            <textarea id="editClubDesc" class="form-control" rows="3" placeholder="Kulüp çalışmaları hakkında kısa açıklama..."></textarea>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="editClubQuota">Kontenjan</label>
+              <input type="number" id="editClubQuota" class="form-control" min="1" max="500" value="20" required />
+            </div>
+            <div class="form-group">
+              <label for="editClubTeacher">Danışman Öğretmen</label>
+              <input type="text" id="editClubTeacher" class="form-control" placeholder="Örn: Kemalettin Aydın" />
+            </div>
+          </div>
+          <div class="form-group" style="display:flex; align-items:center; gap:0.5rem; margin-top:0.25rem;">
+            <input type="checkbox" id="editClubActive" checked style="width:18px; height:18px;" />
+            <label for="editClubActive" style="margin:0;">Kulüp Aktif (Öğrenciler seçim ekranında görebilsin)</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeClubFormModal()">İptal</button>
+          <button type="submit" class="btn btn-primary">✓ Kulübü Kaydet</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. YÖNETİCİNİN ÖĞRENCİ KULÜBÜNÜ DEĞİŞTİRMESİ MODALI (#26) -->
+  <div id="changeStudentClubModal" class="modal-backdrop" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>ÖĞRENCİ KULÜBÜNÜ DEĞİŞTİR / ATA</h3>
+        <button class="btn btn-sm btn-outline" onclick="closeChangeStudentClubModal()">✕</button>
+      </div>
+      <form onsubmit="handleConfirmChangeStudentClub(event)">
+        <div class="modal-body">
+          <input type="hidden" id="chgStClass" />
+          <input type="hidden" id="chgStNo" />
+          <input type="hidden" id="chgStFirst" />
+          <input type="hidden" id="chgStLast" />
+
+          <table class="summary-detail-table" style="margin-top:0;">
+            <tr>
+              <th>Öğrenci Ad Soyad:</th>
+              <td id="chgDisplayStudentName">Ahmet Yılmaz</td>
+            </tr>
+            <tr>
+              <th>Sınıf / Numara:</th>
+              <td id="chgDisplayClassNo">6A - 15</td>
+            </tr>
+            <tr>
+              <th>Mevcut Kulüp:</th>
+              <td id="chgDisplayCurrentClub" style="color:#dc2626;">Satranç Kulübü</td>
+            </tr>
+          </table>
+
+          <div class="form-group">
+            <label for="chgNewClubSelect">Yeni Kulüp Seçiniz:</label>
+            <select id="chgNewClubSelect" class="form-control" required></select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeChangeStudentClubModal()">Vazgeç</button>
+          <button type="submit" class="btn btn-success">✓ Kulüp Değişikliğini Onayla</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. SEÇİLİ SINIFA ÖĞRENCİ EKLEME (TEKLİ & TOPLU) MODALI -->
+  <div id="classAddStudentModal" class="modal-backdrop" style="display: none;">
+    <div class="modal-card" style="max-width: 560px;">
+      <div class="modal-header">
+        <h3 id="classAddModalTitle">6A SINIFINA ÖĞRENCİ EKLE</h3>
+        <button class="btn btn-sm btn-outline" onclick="closeClassAddStudentModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="modalTargetClassName" />
+
+        <!-- A. Tek Öğrenci Ekleme -->
+        <form onsubmit="handleModalSingleAddToClass(event)" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:1rem; margin-bottom:1.15rem;">
+          <h4 style="font-size:0.9rem; font-weight:800; color:#1e3a8a; margin-bottom:0.75rem;">
+            👤 Tek Öğrenci Ekle
+          </h4>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="modalAddFirst">Ad</label>
+              <input type="text" id="modalAddFirst" class="form-control" placeholder="Örn: Ahmet" required />
+            </div>
+            <div class="form-group">
+              <label for="modalAddLast">Soyad</label>
+              <input type="text" id="modalAddLast" class="form-control" placeholder="Örn: Yılmaz" required />
+            </div>
+          </div>
+          <div class="form-row-2" style="align-items:end;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label for="modalAddNo">Öğrenci Numarası</label>
+              <input type="text" id="modalAddNo" class="form-control" placeholder="Örn: 120" required />
+            </div>
+            <div>
+              <button type="submit" class="btn btn-success" style="width:100%; font-weight:800;">
+                ➕ Öğrenciyi Ekle
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- B. Toplu Öğrenci Ekleme (Bu Sınıfa) -->
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:1rem;">
+          <h4 style="font-size:0.9rem; font-weight:800; color:#1e3a8a; margin-bottom:0.35rem;">
+            📋 Bu Sınıfa Toplu Öğrenci Ekle (Liste Yapıştır)
+          </h4>
+          <p style="font-size:0.78rem; color:#475569; margin-bottom:0.6rem;">
+            Her satıra <code>Ad; Soyad; Öğrenci No</code> gelecek şekilde yapıştırınız (Sınıf otomatik olarak seçili sınıfa atanır):
+          </p>
+          <textarea
+            id="modalBulkClassPasteText"
+            class="form-control"
+            rows="4"
+            placeholder="Elif; Demir; 101&#10;Caner; Aydın; 102&#10;Zeynep; Şahin; 103"
+            style="font-family: monospace; font-size:0.84rem; margin-bottom:0.65rem;"
+          ></textarea>
+          <button type="button" class="btn btn-primary btn-sm" style="width:100%;" onclick="handleModalBulkAddToClass()">
+            📥 Listedeki Öğrencileri Bu Sınıfa Kaydet
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeClassAddStudentModal()">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BİLDİRİM TOAST KONTEYNERİ -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

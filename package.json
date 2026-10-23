@@ -1,0 +1,20 @@
+{
+  "name": "ogrenci-kulup-secim-sistemi",
+  "version": "1.0.0",
+  "description": "Profesyonel Online Öğrenci Kulüp Seçim ve Raporlama Sistemi",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "cloudflared": "^0.7.3",
+    "cors": "^2.8.5",
+    "docx": "^9.5.1",
+    "express": "^5.1.0",
+    "localtunnel": "^2.0.2",
+    "pdfkit": "^0.17.2",
+    "qrcode": "^1.5.4",
+    "xlsx": "^0.18.5"
+  }
+}
